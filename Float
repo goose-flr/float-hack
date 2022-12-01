@@ -1,0 +1,60 @@
+local Userinput = game:GetService("UserInputService")
+local player = game.Players.LocalPlayer
+local chara = game.Workspace:WaitForChild(player.Name)
+local HoldWait = 0
+local InputEnded = true
+local Float = Instance.new("Part", game.Workspace)
+local FloatY = 3
+
+local function idk()
+	while InputEnded == false do
+		wait(0.5)
+		HoldWait = HoldWait + 1
+		if HoldWait == 1 then
+			while InputEnded == false do
+				wait(0.1)
+				local Float = Instance.new("Part", game.Workspace)
+				Float.Anchored = true
+				Float.Position = Vector3.new(chara.Torso.Position.X, chara.Torso.Position.Y - FloatY, chara.Torso.Position.Z)
+				Float.Name = "Float"
+			end
+		end
+	end
+end
+
+
+
+Userinput.InputBegan:Connect(function(input)
+	if input.KeyCode == Enum.KeyCode.F then
+		if FloatY == 3.6 then
+			FloatY = 3
+		elseif FloatY == 4.5 then
+			FloatY = 3.6
+		elseif FloatY == 3 then
+			FloatY = 4.5
+		end
+		
+	end
+	if input.KeyCode == Enum.KeyCode.Q then
+		InputEnded = false
+		spawn(idk)
+		local Float = Instance.new("Part", game.Workspace)
+		Float.Anchored = true
+		Float.Position = Vector3.new(chara.Torso.Position.X, chara.Torso.Position.Y - FloatY, chara.Torso.Position.Z)
+		Float.Name = "Float"
+	end
+	if input.KeyCode == Enum.KeyCode.Backspace then
+		for i, v in pairs(game.Workspace:GetChildren()) do
+			if v.Name == "Float" then
+				v:Destroy()
+			end
+		end
+	end
+end)
+
+Userinput.InputEnded:Connect(function(input)
+	if input.KeyCode == Enum.KeyCode.Q then
+		InputEnded = true
+		HoldWait = 0
+	end
+end)
